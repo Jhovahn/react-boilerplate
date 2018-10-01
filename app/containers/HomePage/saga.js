@@ -2,12 +2,21 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { LOAD_REPOS, LOAD_USER_INPUT_PENDING } from 'containers/App/constants';
+import {
+  reposLoaded,
+  repoLoadingError,
+  loadUserInputPending,
+  loadUserInputSuccess,
+  loadUserInputError,
+} from 'containers/App/actions';
 
 import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
+import {
+  makeSelectUsername,
+  makeSelectInput,
+} from 'containers/HomePage/selectors';
 
 /**
  * Github repos request/response handler
@@ -26,6 +35,22 @@ export function* getRepos() {
   }
 }
 
+export function* writeUserInput() {
+  const input = yield select(makeSelectInput());
+  const url = `http://localhost:5000/input`;
+
+  try {
+    const formattedInput = JSON.stringify({ input: input });
+    const entry = yield call(request, url, {
+      method: 'POST',
+      body: formattedInput,
+    });
+    yield put(loadUserInputSuccess(entry));
+  } catch (err) {
+    yield put(loadUserInputError(err));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -34,5 +59,8 @@ export default function* githubData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_REPOS, getRepos);
+  yield all([
+    takeLatest(LOAD_REPOS, getRepos),
+    takeLatest(LOAD_USER_INPUT_PENDING, writeUserInput),
+  ]);
 }

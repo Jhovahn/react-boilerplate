@@ -12,7 +12,14 @@
 
 import { fromJS } from 'immutable';
 
-import { LOAD_REPOS_SUCCESS, LOAD_REPOS, LOAD_REPOS_ERROR } from './constants';
+import {
+  LOAD_REPOS_SUCCESS,
+  LOAD_REPOS,
+  LOAD_REPOS_ERROR,
+  LOAD_USER_INPUT_PENDING,
+  LOAD_USER_INPUT_SUCCESS,
+  LOAD_USER_INPUT_ERROR,
+} from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
@@ -22,6 +29,9 @@ const initialState = fromJS({
   userData: {
     repositories: false,
   },
+  userInputWritePending: false,
+  userInputWriteSuccess: false,
+  userInputWriteError: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -38,6 +48,16 @@ function appReducer(state = initialState, action) {
         .set('currentUser', action.username);
     case LOAD_REPOS_ERROR:
       return state.set('error', action.error).set('loading', false);
+    case LOAD_USER_INPUT_PENDING:
+      return state.set('userInputWritePending', true);
+    case LOAD_USER_INPUT_SUCCESS:
+      return state
+        .set('userInputWritePending', false)
+        .set('userInputWriteSuccess', true);
+    case LOAD_USER_INPUT_ERROR:
+      return state
+        .set('userInputWritePending', false)
+        .set('userInputWriteError', true);
     default:
       return state;
   }

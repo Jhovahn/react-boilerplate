@@ -8,6 +8,21 @@ const selectGlobal = state => state.get('global');
 
 const selectRoute = state => state.get('route');
 
+const makeSelectLoadWriteUserInputPending = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('userInputWritePending'),
+  );
+
+const makeSelectLoadWriteUserInputSuccess = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('loadUserInputSuccess'),
+  );
+
+const makeSelectLoadWriteUserInputError = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('loadUserInputFailure'),
+  );
+
 const makeSelectCurrentUser = () =>
   createSelector(selectGlobal, globalState => globalState.get('currentUser'));
 
@@ -32,4 +47,7 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocation,
+  makeSelectLoadWriteUserInputPending,
+  makeSelectLoadWriteUserInputSuccess,
+  makeSelectLoadWriteUserInputError,
 };

@@ -27,7 +27,7 @@ import Form from './Form';
 import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import { loadRepos } from '../App/actions';
+import { loadRepos, loadUserInputPending } from '../App/actions';
 import { changeUsername, changeUserInput } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
@@ -74,7 +74,7 @@ export class HomePage extends React.PureComponent {
             <H2>
               <FormattedMessage {...messages.trymeHeader} />
             </H2>
-            <Form>
+            <Form onSubmit={this.props.onSubmitUserInput}>
               <Input
                 type="text"
                 placeholder="enter text here..."
@@ -124,7 +124,8 @@ export function mapDispatchToProps(dispatch) {
     onChangeUserInput: evt => dispatch(changeUserInput(evt.target.value)),
     onSubmitUserInput: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadUserInput(evt.target.value));
+      dispatch(loadUserInputPending());
+      console.log(`submitted`);
     },
   };
 }
