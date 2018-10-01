@@ -13,9 +13,6 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <A href="https://twitter.com/mxstbr">
-          <Img src={Banner} alt="react-boilerplate - Logo" />
-        </A>
         <NavBar>
           <HeaderLink to="/">
             <FormattedMessage {...messages.home} />

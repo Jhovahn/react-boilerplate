@@ -8,6 +8,19 @@ const selectGlobal = state => state.get('global');
 
 const selectRoute = state => state.get('route');
 
+const makeSelectLoadReadDatabasePending = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('loadDatabaseReadPending'),
+  );
+const makeSelectLoadReadDatabaseSuccess = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('loadDatabaseReadSuccess'),
+  );
+const makeSelectLoadReadDatabaseError = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('loadDatabaseReadError'),
+  );
+
 const makeSelectLoadWriteUserInputPending = () =>
   createSelector(selectGlobal, globalState =>
     globalState.get('userInputWritePending'),
@@ -26,28 +39,16 @@ const makeSelectLoadWriteUserInputError = () =>
 const makeSelectCurrentUser = () =>
   createSelector(selectGlobal, globalState => globalState.get('currentUser'));
 
-const makeSelectLoading = () =>
-  createSelector(selectGlobal, globalState => globalState.get('loading'));
-
-const makeSelectError = () =>
-  createSelector(selectGlobal, globalState => globalState.get('error'));
-
-const makeSelectRepos = () =>
-  createSelector(selectGlobal, globalState =>
-    globalState.getIn(['userData', 'repositories']),
-  );
-
 const makeSelectLocation = () =>
   createSelector(selectRoute, routeState => routeState.get('location').toJS());
 
 export {
   selectGlobal,
-  makeSelectCurrentUser,
-  makeSelectLoading,
-  makeSelectError,
-  makeSelectRepos,
   makeSelectLocation,
   makeSelectLoadWriteUserInputPending,
   makeSelectLoadWriteUserInputSuccess,
   makeSelectLoadWriteUserInputError,
+  makeSelectLoadReadDatabasePending,
+  makeSelectLoadReadDatabaseSuccess,
+  makeSelectLoadReadDatabaseError,
 };

@@ -6,8 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,14 +18,11 @@ import {
   makeSelectLoading,
   makeSelectError,
 } from 'containers/App/selectors';
-import H2 from 'components/H2';
-import ReposList from 'components/ReposList';
-import AtPrefix from './AtPrefix';
+
 import CenteredSection from './CenteredSection';
 import Form from './Form';
 import Input from './Input';
-import Section from './Section';
-import messages from './messages';
+
 import { loadRepos, loadUserInputPending } from '../App/actions';
 import { changeUsername, changeUserInput } from './actions';
 import { makeSelectUsername } from './selectors';
@@ -44,61 +40,25 @@ export class HomePage extends React.PureComponent {
     }
   }
 
+  clearUserInput() {}
+
   render() {
-    const { loading, error, repos } = this.props;
-    const reposListProps = {
-      loading,
-      error,
-      repos,
-    };
+    const { onSubmitUserInput, input, onChangeUserInput } = this.props;
 
     return (
       <article>
-        <Helmet>
-          <title>Save Input</title>
-          <meta
-            name="description"
-            content="A React.js Boilerplate application homepage"
-          />
-        </Helmet>
         <div>
           <CenteredSection>
-            <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
-            </H2>
-            <p>
-              <FormattedMessage {...messages.startProjectMessage} />
-            </p>
-          </CenteredSection>
-          <Section>
-            <H2>
-              <FormattedMessage {...messages.trymeHeader} />
-            </H2>
-            <Form onSubmit={this.props.onSubmitUserInput}>
+            <h2>Enter Text Be Stored</h2>
+            <Form onSubmit={onSubmitUserInput}>
               <Input
                 type="text"
                 placeholder="enter text here..."
-                value={this.props.input}
-                onChange={this.props.onChangeUserInput}
+                value={input}
+                onChange={onChangeUserInput}
               />
             </Form>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-            <ReposList {...reposListProps} />
-          </Section>
+          </CenteredSection>
         </div>
       </article>
     );
@@ -106,36 +66,22 @@ export class HomePage extends React.PureComponent {
 }
 
 HomePage.propTypes = {
-  loading: PropTypes.bool,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  onSubmitForm: PropTypes.func,
-  username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
+  onSubmitUserInput: PropTypes.func,
+  onChangeUserInput: PropTypes.func,
+  input: PropTypes.string,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
-    onSubmitForm: evt => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
-    },
     onChangeUserInput: evt => dispatch(changeUserInput(evt.target.value)),
     onSubmitUserInput: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadUserInputPending());
-      console.log(`submitted`);
     },
   };
 }
 
-const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const withConnect = connect(
   mapStateToProps,

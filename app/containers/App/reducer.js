@@ -19,6 +19,9 @@ import {
   LOAD_USER_INPUT_PENDING,
   LOAD_USER_INPUT_SUCCESS,
   LOAD_USER_INPUT_ERROR,
+  LOAD_DATABASE_PENDING,
+  LOAD_DATABASE_SUCCESS,
+  LOAD_DATABASE_ERROR,
 } from './constants';
 
 // The initial state of the App
@@ -32,6 +35,9 @@ const initialState = fromJS({
   userInputWritePending: false,
   userInputWriteSuccess: false,
   userInputWriteError: false,
+  loadDatabaseReadPending: false,
+  loadDatabaseReadSuccess: false,
+  loadDatabaseReadError: false,
 });
 
 function appReducer(state = initialState, action) {
@@ -53,11 +59,23 @@ function appReducer(state = initialState, action) {
     case LOAD_USER_INPUT_SUCCESS:
       return state
         .set('userInputWritePending', false)
-        .set('userInputWriteSuccess', true);
+        .set('userInputWriteSuccess', action.response);
     case LOAD_USER_INPUT_ERROR:
       return state
         .set('userInputWritePending', false)
-        .set('userInputWriteError', true);
+        .set('userInputWriteError', action.response);
+    case LOAD_DATABASE_PENDING:
+      return state
+        .set('loadDatabaseReadPending', true)
+        .set('loadDatabaseReadSuccess', action.response);
+    case LOAD_DATABASE_SUCCESS:
+      return state
+        .set('loadDatabaseReadPending', false)
+        .set('loadDatabaseReadSuccess', action.response);
+    case LOAD_DATABASE_ERROR:
+      return state
+        .set('loadDatabaseReadPending', false)
+        .set('loadDatabaseReadError', action.response);
     default:
       return state;
   }

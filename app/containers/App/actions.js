@@ -22,6 +22,9 @@ import {
   LOAD_USER_INPUT_PENDING,
   LOAD_USER_INPUT_SUCCESS,
   LOAD_USER_INPUT_ERROR,
+  LOAD_DATABASE_PENDING,
+  LOAD_DATABASE_SUCCESS,
+  LOAD_DATABASE_ERROR,
 } from './constants';
 
 /**
@@ -29,6 +32,26 @@ import {
  *
  * @return {object} An action object with a type of LOAD_REPOS
  */
+
+export function loadDatabasePending() {
+  return {
+    type: LOAD_DATABASE_PENDING,
+  };
+}
+
+export function loadDatabaseSuccess(response) {
+  return {
+    type: LOAD_DATABASE_SUCCESS,
+    response,
+  };
+}
+
+export function loadDatabaseError(response) {
+  return {
+    type: LOAD_DATABASE_ERROR,
+    response,
+  };
+}
 
 export function loadUserInputPending(input) {
   return {

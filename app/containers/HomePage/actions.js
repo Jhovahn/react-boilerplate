@@ -15,7 +15,7 @@
  *    }
  */
 
-import { CHANGE_USERNAME, CHANGE_USER_INPUT } from './constants';
+import { CHANGE_USER_INPUT } from './constants';
 
 /**
  * Changes the input field of the form

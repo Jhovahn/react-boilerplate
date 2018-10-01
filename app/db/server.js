@@ -23,8 +23,9 @@ app.get('/input', (req, res) => {
     (err, client) => {
       if (err) throw err;
       const db = client.db('notes');
-      db.collection('fruits')
+      db.collection('redux')
         .find()
+        .sort({ created_at: 1 })
         .toArray((error, response) => {
           if (error) throw err;
           res.send(response);
@@ -39,7 +40,7 @@ app.post('/input', (req, res) => {
     (err, client) => {
       if (err) throw err;
       const db = client.db('notes');
-      db.collection('fruits')
+      db.collection('redux')
         .insertOne(JSON.parse(req.body))
         .then(item => res.send(`${item} saved`))
         .catch(error => res.sendSatatus(400).send(`unable to save: ${error}`));
