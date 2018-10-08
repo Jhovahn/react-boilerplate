@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export default styled(Link)`
   display: inline-flex;
@@ -23,4 +23,20 @@ export default styled(Link)`
     background: #ff0072;
     color: #fff;
   }
+
+  ${props =>
+    props.input &&
+    css`
+      background: #5edeff;
+      color: white;
+      border: 2px solid #5edeff;
+    `};
+
+  ${props =>
+    props.database &&
+    css`
+      background: #71f442;
+      color: white;
+      border: 2px solid #71f442;
+    `};
 `;

@@ -14,10 +14,10 @@ class Header extends React.Component {
     return (
       <div>
         <NavBar>
-          <HeaderLink to="/">
+          <HeaderLink to="/" input>
             <FormattedMessage {...messages.home} />
           </HeaderLink>
-          <HeaderLink to="/db">
+          <HeaderLink to="/db" database>
             <FormattedMessage {...messages.features} />
           </HeaderLink>
         </NavBar>
