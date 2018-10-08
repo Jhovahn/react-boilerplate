@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import syled, { css } from 'styled-components';
 
 import A from './A';
 import Img from './Img';
@@ -14,10 +15,10 @@ class Header extends React.Component {
     return (
       <div>
         <NavBar>
-          <HeaderLink to="/" input>
+          <HeaderLink to="/" input="input">
             <FormattedMessage {...messages.home} />
           </HeaderLink>
-          <HeaderLink to="/db" database>
+          <HeaderLink to="/db" database="database">
             <FormattedMessage {...messages.features} />
           </HeaderLink>
         </NavBar>
