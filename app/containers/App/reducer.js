@@ -59,11 +59,11 @@ function appReducer(state = initialState, action) {
     case LOAD_USER_INPUT_SUCCESS:
       return state
         .set('userInputWritePending', false)
-        .set('userInputWriteSuccess', action.response);
+        .set('userInputWriteSuccess', true);
     case LOAD_USER_INPUT_ERROR:
       return state
         .set('userInputWritePending', false)
-        .set('userInputWriteError', action.response);
+        .set('userInputWriteError', true);
     case LOAD_DATABASE_PENDING:
       return state
         .set('loadDatabaseReadPending', true)

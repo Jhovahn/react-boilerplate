@@ -28,12 +28,12 @@ const makeSelectLoadWriteUserInputPending = () =>
 
 const makeSelectLoadWriteUserInputSuccess = () =>
   createSelector(selectGlobal, globalState =>
-    globalState.get('loadUserInputSuccess'),
+    globalState.get('userInputWriteSuccess'),
   );
 
 const makeSelectLoadWriteUserInputError = () =>
   createSelector(selectGlobal, globalState =>
-    globalState.get('loadUserInputFailure'),
+    globalState.get('userInputWriteError'),
   );
 
 const makeSelectCurrentUser = () =>

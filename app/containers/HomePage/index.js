@@ -23,24 +23,33 @@ import CenteredSection from './CenteredSection';
 import Form from './Form';
 import Input from './Input';
 
-import { loadRepos, loadUserInputPending } from '../App/actions';
+import { loadUserInputPending } from '../App/actions';
+import {
+  makeSelectLoadWriteUserInputPending,
+  makeSelectLoadWriteUserInputSuccess,
+  makeSelectLoadWriteUserInputError,
+} from '../App/selectors';
 import { changeUsername, changeUserInput } from './actions';
-import { makeSelectUsername } from './selectors';
+import { makeSelectInput } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
+  constructor() {
+    super();
+  }
   /**
    * when initial state username is not null, submit the form to load repos
    */
-  componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
-    }
-  }
 
-  clearUserInput() {}
+  confirmation() {
+    this.props.writePending
+      ? `<h4>Storing data...</h4>`
+      : this.props.writeSuccess
+        ? `<h4>Data stored!</h4>`
+        : '';
+  }
 
   render() {
     const { onSubmitUserInput, input, onChangeUserInput } = this.props;
@@ -58,6 +67,13 @@ export class HomePage extends React.PureComponent {
                 onChange={onChangeUserInput}
               />
             </Form>
+            {this.props.writePending ? (
+              <h4>Storing data...</h4>
+            ) : this.props.writeSuccess ? (
+              <h4>Data stored!</h4>
+            ) : (
+              ''
+            )}
           </CenteredSection>
         </div>
       </article>
@@ -77,11 +93,17 @@ export function mapDispatchToProps(dispatch) {
     onSubmitUserInput: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadUserInputPending());
+      evt.target.reset();
     },
   };
 }
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  writePending: makeSelectLoadWriteUserInputPending(),
+  writeSuccess: makeSelectLoadWriteUserInputSuccess(),
+  writeError: makeSelectLoadWriteUserInputError(),
+  input: makeSelectInput(),
+});
 
 const withConnect = connect(
   mapStateToProps,

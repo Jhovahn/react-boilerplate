@@ -36,7 +36,14 @@ export class DatabaseListing extends React.Component {
         <button onClick={this.props.onSubmitRequest}>
           <h2>All Datbase Entries</h2>
         </button>
-        <div>{display}</div>
+        {console.log(this.props)}
+        {this.props.dbpending === true ? (
+          <h3>Loading...</h3>
+        ) : this.props.dberror === true ? (
+          <h3>Database error, contact support</h3>
+        ) : (
+          <div>{display}</div>
+        )}
       </div>
     );
   }
