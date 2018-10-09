@@ -30,7 +30,7 @@ export class DatabaseListing extends React.Component {
     const display =
       !!list && list.length
         ? list.map(el => <ListItem key={el._id}>{el.input}</ListItem>)
-        : '';
+        : 'No Entries to display';
     return (
       <div>
         <button onClick={this.props.onSubmitRequest}>
@@ -40,7 +40,7 @@ export class DatabaseListing extends React.Component {
         {this.props.dbpending === true ? (
           <h3>Loading...</h3>
         ) : this.props.dberror === true ? (
-          <h3>Database error, contact support</h3>
+          <h3>Database error, contact support.</h3>
         ) : (
           <div>{display}</div>
         )}
